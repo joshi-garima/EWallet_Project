@@ -13,6 +13,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,7 @@ import static com.majorProject.UserService.utilities.Constants.*;
 
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
     @Autowired
     private UserRepo userRepo;
@@ -72,6 +75,13 @@ public class UserService {
                 email(userFromDb.getEmail()).
                 build();
 
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // TODO Auto-generated method stub
+        Users users = userRepo.findByEmail(username);
+        return users;
     }
 
 }

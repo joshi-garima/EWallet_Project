@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .httpBasic(withDefaults()).csrf(csrf ->csrf.disable());
         return http.build();
     }
+    
     @Bean
     public PasswordEncoder getEncoder(){
         return new BCryptPasswordEncoder();

@@ -1,5 +1,7 @@
-package com.majorProject.Exception;
+package com.majorProject.NotificationService.Exception;
 
-public class JasonProcessingException {
-
+public class JasonProcessingException extends Exception{
+    public JasonProcessingException(String msg){
+        super(msg);
+    }
 }

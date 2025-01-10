@@ -29,18 +29,18 @@ public class UserRequestDTO {
 
     public Users toUser() {
 
-//    return Users.builder().name(this.name).
-//            email(this.email).
-//            phoneNo(this.phoneNo).
-//            address(this.address).
-//            userIdentifierValue(this.userIdentifierValue).
-//            identifier(this.identifier).
-//            enabled(true).
-//            accountNonExpired(true).
-//            accountNonLocked(true).
-//            credentialsNonExpired(true).
-//            build();
-        return Users.builder().name(this.name).email(this.email).phoneNo(this.phoneNo).build();
+   return Users.builder().name(this.name).
+           email(this.email).
+           phoneNo(this.phoneNo).
+           address(this.address).
+           userIdentifierValue(this.userIdentifierValue).
+           identifier(this.identifier).
+           enabled(true).
+           accountNonExpired(true).
+           accountNonLocked(true).
+           credentialsNonExpired(true).
+           build();
+        // return Users.builder().name(this.name).email(this.email).phoneNo(this.phoneNo).build();
 
     }
 }

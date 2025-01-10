@@ -1,6 +1,6 @@
-package com.majorProject.UserService.exceptionHandlers;
+package com.majorProject.NotificationService.exceptionHandlers;
 
-import com.majorProject.UserService.Exceptions.JasonProcessingException;
+import com.majorProject.NotificationService.Exception.JasonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

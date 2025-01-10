@@ -1,13 +1,13 @@
 package model;
 
 
-import jakarta.persistence.Entity;
+
 import lombok.*;
 
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+
 @Builder
 @Getter
 public class Wallet {
