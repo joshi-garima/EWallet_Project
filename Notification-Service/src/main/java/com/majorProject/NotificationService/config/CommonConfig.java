@@ -2,7 +2,7 @@ package com.majorProject.NotificationService.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

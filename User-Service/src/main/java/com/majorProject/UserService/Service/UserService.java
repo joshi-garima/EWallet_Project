@@ -2,6 +2,7 @@ package com.majorProject.UserService.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.majorProject.UserService.Exceptions.UserException;
 import com.majorProject.UserService.Repository.UserRepo;
 import com.majorProject.UserService.dto.UserRequestDTO;
 import com.majorProject.UserService.dto.UserResponseDTO;
@@ -9,7 +10,11 @@ import com.majorProject.UserService.model.Users;
 
 
 import com.majorProject.UserService.utilities.Constants;
-import org.json.JSONObject;
+
+import org.json.simple.JSONObject;
+
+// import org.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -20,6 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static com.majorProject.UserService.utilities.Constants.*;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 
 @Service
@@ -43,15 +50,16 @@ public class UserService implements UserDetailsService{
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    public UserResponseDTO addUpdate(UserRequestDTO userRequestDTO) throws JsonProcessingException {
+    public UserResponseDTO addUpdate(UserRequestDTO userRequestDTO) throws JsonProcessingException, SQLIntegrityConstraintViolationException {
         Users user = userRequestDTO.toUser();
         user.setAuthorities(userAuthority);
         user.setPassword(encoder.encode(userRequestDTO.getPassword()));
         Users resultUserFromDb = userRepo.findByEmail(userRequestDTO.getEmail());
         JSONObject jsonObject = new JSONObject();
+        
 
         if(resultUserFromDb == null) {
-            jsonObject.put(Constants.NEW_USER, true);
+            jsonObject.put(Constants.NEW_USER, "true");
         }
 
 //        Implementation of Queue - as we want to send notification from the user Creation
@@ -64,7 +72,7 @@ public class UserService implements UserDetailsService{
         jsonObject.put(Constants.USER_NAME, user.getName());
         jsonObject.put(Constants.USER_ID, user.getId());
 
-        kafkaTemplate.send(USER_ALTERATION_TOPIC, objectMapper.writeValueAsString(jsonObject));
+        kafkaTemplate.send(USER_CREATION_TOPIC, objectMapper.writeValueAsString(jsonObject));
 
 
         return UserResponseDTO.builder().

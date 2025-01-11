@@ -11,9 +11,9 @@ public class Constants {
 
     public final static  String NEW_USER = "false";
 
-    public final static  String USER_CREATION_TOPIC = "user_creation_topic";
-    public final static  String USER_UPDATE_TOPIC = "user_update_topic";
-    public final static  String  USER_ALTERATION_TOPIC = "user_alteration_topic";
+    public final static  String USER_CREATION_TOPIC = "USER_CREATION_TOPIC";
+    // public final static  String USER_UPDATE_TOPIC = "user_update_topic";
+    // public final static  String  USER_ALTERATION_TOPIC = "user_alteration_topic";
 
 
 

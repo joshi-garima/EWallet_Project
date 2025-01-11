@@ -1,9 +1,12 @@
 package com.majorProject.UserService.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.majorProject.UserService.Exceptions.UserException;
 import com.majorProject.UserService.Service.UserService;
 import com.majorProject.UserService.dto.UserRequestDTO;
 import com.majorProject.UserService.dto.UserResponseDTO;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,13 +29,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/addUpdate")
-    public ResponseEntity<UserResponseDTO> add(@RequestBody @Validated UserRequestDTO userRequestDTO) throws JsonProcessingException {
+    public ResponseEntity<UserResponseDTO> add(@RequestBody @Validated UserRequestDTO userRequestDTO) throws JsonProcessingException, SQLIntegrityConstraintViolationException {
         UserResponseDTO user = userService.addUpdate(userRequestDTO);
         if(user != null){
             ResponseEntity response = new ResponseEntity(user, HttpStatus.OK);
             return response;
         }
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 
