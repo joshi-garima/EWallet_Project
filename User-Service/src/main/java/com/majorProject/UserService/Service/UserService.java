@@ -2,14 +2,11 @@ package com.majorProject.UserService.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.majorProject.UserService.Exceptions.UserException;
 import com.majorProject.UserService.Repository.UserRepo;
-import com.majorProject.UserService.dto.UserRequestDTO;
-import com.majorProject.UserService.dto.UserResponseDTO;
+import com.majorProject.UserService.dto.UserDTO.UserRequestDTO;
+import com.majorProject.UserService.dto.UserDTO.UserResponseDTO;
 import com.majorProject.UserService.model.Users;
-
-
-import com.majorProject.UserService.utilities.Constants;
+import com.majorProject.utils.CommonConstants;
 
 import org.json.simple.JSONObject;
 
@@ -24,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.majorProject.UserService.utilities.Constants.*;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -59,20 +55,20 @@ public class UserService implements UserDetailsService{
         
 
         if(resultUserFromDb == null) {
-            jsonObject.put(Constants.NEW_USER, "true");
+            jsonObject.put(CommonConstants.NEW_USER, "true");
         }
 
 //        Implementation of Queue - as we want to send notification from the user Creation
 
         Users userFromDb =  userRepo.save(user);
-        jsonObject.put(Constants.USER_CONTACT, user.getPhoneNo());
-        jsonObject.put(Constants.USER_EMAIL, user.getEmail());
-        jsonObject.put(Constants.USER_IDENTIFIER, user.getIdentifier());
-        jsonObject.put(Constants.USER_IDENTIFIER_VALUE, user.getUserIdentifierValue());
-        jsonObject.put(Constants.USER_NAME, user.getName());
-        jsonObject.put(Constants.USER_ID, user.getId());
+        jsonObject.put(CommonConstants.USER_CONTACT, user.getPhoneNo());
+        jsonObject.put(CommonConstants.USER_EMAIL, user.getEmail());
+        jsonObject.put(CommonConstants.USER_IDENTIFIER, user.getIdentifier());
+        jsonObject.put(CommonConstants.USER_IDENTIFIER_VALUE, user.getUserIdentifierValue());
+        jsonObject.put(CommonConstants.USER_NAME, user.getName());
+        jsonObject.put(CommonConstants.USER_ID, user.getId());
 
-        kafkaTemplate.send(USER_CREATION_TOPIC, objectMapper.writeValueAsString(jsonObject));
+        kafkaTemplate.send(CommonConstants.USER_CREATION_TOPIC, objectMapper.writeValueAsString(jsonObject));
 
 
         return UserResponseDTO.builder().
@@ -87,7 +83,7 @@ public class UserService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // TODO Auto-generated method stub
+      
         Users users = userRepo.findByEmail(username);
         return users;
     }

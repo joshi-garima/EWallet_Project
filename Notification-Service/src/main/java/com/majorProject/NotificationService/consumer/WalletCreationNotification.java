@@ -1,9 +1,6 @@
 package com.majorProject.NotificationService.consumer;
 
 import org.json.simple.JSONObject;
-
-// import org.json.JSONObject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,8 +14,7 @@ import com.majorProject.utils.CommonConstants;
 
 
 @Service
-public class UserCreatedNotification {
-
+public class WalletCreationNotification {
     @Autowired
     private SimpleMailMessage simpleMailMessage;
 
@@ -28,22 +24,21 @@ public class UserCreatedNotification {
     @Autowired
     private ObjectMapper objectMapper;
 
-
-    @KafkaListener(topics = {CommonConstants.USER_CREATION_TOPIC}, groupId = "notification-service")
+    @KafkaListener(topics = {CommonConstants.WALLET_CREATION_TOPIC}, groupId = "notification-service" )
     public void sendNotification(String message) throws JsonMappingException, JsonProcessingException {
 
 
         JSONObject object = objectMapper.readValue(message, JSONObject.class);
-        String name = (String) object.get(CommonConstants.USER_NAME);
+        // String userId = (String) object.get(CommonConstants.USER_ID);
         String email = (String) object.get(CommonConstants.USER_EMAIL);
+        String name = (String) object.get(CommonConstants.USER_NAME);
+        String balance = String.valueOf(object.get(CommonConstants.USER_CREATION_TIME_WALLET));
 
         simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject("Ewallet User Created");
+        simpleMailMessage.setSubject("Wallet Created");
         simpleMailMessage.setFrom("ewallet@jdbl-76.com");
-        simpleMailMessage.setText("Welcome " + name + " to EWallet-Service.");
+        simpleMailMessage.setText(  "Welcome " + name + ". " + balance +  " has been addded to your wallet");
         mailSender.send(simpleMailMessage);
-        
 
     }
-
 }

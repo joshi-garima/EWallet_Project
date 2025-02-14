@@ -1,10 +1,9 @@
 package com.majorProject.UserService.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.majorProject.UserService.Exceptions.UserException;
 import com.majorProject.UserService.Service.UserService;
-import com.majorProject.UserService.dto.UserRequestDTO;
-import com.majorProject.UserService.dto.UserResponseDTO;
+import com.majorProject.UserService.dto.UserDTO.UserRequestDTO;
+import com.majorProject.UserService.dto.UserDTO.UserResponseDTO;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
