@@ -24,7 +24,7 @@ public class kafkaTopicCreation {
     @PostConstruct
     public void createTopic(){
         // meathod -> topicName, partition, replication.
-        createTopicIfNotExist(CommonConstants.TXN_CREATION_TOPPIC,2, (short) 2);
+        createTopicIfNotExist(CommonConstants.TXN_CREATION_TOPIC,2, (short) 2);
     }
             
     public void createTopicIfNotExist(String topicName, int partition, short rFactor) {
